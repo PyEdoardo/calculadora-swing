@@ -48,6 +48,8 @@ public class Interface extends javax.swing.JFrame {
         }
     }
     public String conversaoBases(String numeroConverter,int base,int baseFinal){
+        String resultado;
+        try{
         String baseString;
         String baseFinalString;
         
@@ -57,23 +59,17 @@ public class Interface extends javax.swing.JFrame {
         
         // Converter base de origem para decimal.
         long numeroDecimal = Long.parseLong(numeroConverter, pegarBase(base));
-        // Código para tratar erro, e avisar que o número é incompartível com a base atual.
-        if (base == 8 && numeroDecimal >= 8){
-            JOptionPane.showMessageDialog(rootPane, "A Base atual não é compartível com o número inserido.");
-            System.out.println("Erro na conversão, o número é incompartível com a base");
-            return null;
-        }
-        /* Código para tratar erro, ele verifica se a base é 2, caso sim, e o número a ser convertido seja maior que a base suporta
-        ele irá retornar uma mensagem e um erro.*/
-        else if (base == 2 && numeroDecimal >= 2){
-            JOptionPane.showMessageDialog(rootPane, "A Base atual não é compartível com o número inserido.");
-            System.out.println("Erro na conversão, o número é incompartível com a base");
-            return null;
-        }
         
         //Converter de Decimal para a base desejada.
-        String resultado = Long.toString(numeroDecimal, pegarBase(baseFinal));
+        resultado = Long.toString(numeroDecimal, pegarBase(baseFinal));
         return resultado;
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, 
+            "Erro de entrada: Por favor, insira um número válido para a base selecionada.", 
+            "Erro de Conversão", 
+            JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
         
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
