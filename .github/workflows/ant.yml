@@ -1,28 +1,35 @@
-# This workflow will build a Java project with Ant
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-ant
-
 name: Java CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - run: ant -noinput -buildfile build.xml
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Package
-        path: dist/jar
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Altere para a versão do Java que você está usando
+          distribution: 'adoptopenjdk'
+
+      - name: Install Ant
+        run: sudo apt-get install -y ant
+
+      - name: Run Ant build
+        run: ant dist
+
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: calculadora-fat
+          path: dist/calculadora-fat.jar
